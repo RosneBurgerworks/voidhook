@@ -32,11 +32,11 @@ static inline void CreateMove()
     // Empty the array
     sniperdot_array.fill(0);
     // Find sniper dots
-    for (auto &dot_ent : entity_cache::valid_ents)
+    for (int i = g_IEngine->GetMaxClients() + 1; i <= HIGHEST_ENTITY; i++)
     {
-
+        CachedEntity *dot_ent = ENTITY(i);
         // Not a sniper dot
-        if (dot_ent->m_iClassID() != CL_CLASS(CSniperDot))
+        if (CE_BAD(dot_ent) || dot_ent->m_iClassID() != CL_CLASS(CSniperDot))
             continue;
         // Get the player it belongs to
         auto ent_idx = HandleToIDX(CE_INT(dot_ent, netvar.m_hOwnerEntity));
@@ -60,7 +60,7 @@ void frameStageNotify(ClientFrameStage_t stage)
 #endif
 }
 
-static std::array<float, 5> yaw_resolves{ 0.0f, 180.0f, 65.0f, -65.0f, -180.0f };
+static std::array<float, 6> yaw_resolves{ 0.0f, 260.0f, 150.0f, -90.0f, 180.0f, 30.0f  };
 
 static float resolveAngleYaw(float angle, brutedata &brute)
 {
@@ -73,7 +73,7 @@ static float resolveAngleYaw(float angle, brutedata &brute)
 
     // Yaw Resolving
     // Find out which angle we should try
-    int entry = (int) std::floor((brute.brutenum / 2.0f)) % yaw_resolves.size();
+    int entry = (int) std::floor((brute.brutenum / 3.0f)) % yaw_resolves.size();
     angle += yaw_resolves[entry];
 
     while (angle > 180)
