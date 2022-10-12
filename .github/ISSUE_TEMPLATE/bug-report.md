@@ -12,7 +12,7 @@ assignees: ''
 **Cathook Version:**  
 
 ## Config used
-<!-- Add the .conf file you were using from /opt/cathook/data/configs/. Drag and drop the file here. -->
+<!-- Add the .conf file you were using from /opt/voidhook/data/configs/. Drag and drop the file here. -->
 
 ## Logs / Crash Report  
 <!-- Add the logs from /tmp/. If cathook crashed, paste symbolize-crash-log here. Drag and drop the file here.-->
