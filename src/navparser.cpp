@@ -489,8 +489,7 @@ Vector last_destination;
 
 bool isReady()
 {
-    // F you Pipeline
-    return enabled && map && map->state == NavState::Active && (GetLevelName() == "plr_pipeline" || (g_pGameRules->roundmode > 3 && (g_pTeamRoundTimer->GetRoundState() != RT_STATE_SETUP || g_pLocalPlayer->team != TEAM_BLU)));
+    return enabled && map && map->state == NavState::Active && (g_pGameRules->roundmode > 3);
 }
 
 bool isPathing()
@@ -871,16 +870,6 @@ void CreateMove()
         cancelPath();
         return;
     }
-    round_states round_state = g_pTeamRoundTimer->GetRoundState();
-    // Still in setuptime, if on fitting team, then do not path yet
-    // F you Pipeline
-    if (round_state == RT_STATE_SETUP && GetLevelName() != "plr_pipeline" && g_pLocalPlayer->team == TEAM_BLU)
-    {
-        if (navparser::NavEngine::isPathing())
-            navparser::NavEngine::cancelPath();
-        return;
-    }
-
     if (vischeck_runtime)
         vischeckPath();
     checkBlacklist();
