@@ -91,7 +91,7 @@ void DrawCheatVisuals()
                 "\nPress '" + open_gui_button.toString() + "' to open the HUD.";
             }
             else {
-                hack_info_text = "Voidhook" + hack::GetVersion() + " " + hack::GetType();
+                hack_info_text = "Voidhook " + hack::GetVersion() + " " + hack::GetType();
             }
             float w, h;
             fonts::center_screen->stringSize(hack_info_text, &w, &h); // Scale these to size of string
