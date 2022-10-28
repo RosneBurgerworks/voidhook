@@ -27,7 +27,7 @@
 
 // Totally neccesary branding.
 static settings::Boolean info_text{ "hack-info.enable", "true" };
-static settings::Boolean info_text_min{ "hack-info.minimal", "false" }; // Remove this, it isn't used for anything anymore. lol
+static settings::Boolean info_text_min{ "hack-info.minimal", "false" };
 static settings::Rgba info_background_color{"hack-info.background", "ff00e6b3"};
 static settings::Rgba info_foreground_color{"hack-info.foreground", "ffffff"};
 static settings::Int info_x{"hack-info.x", "10"};
@@ -85,9 +85,14 @@ void DrawCheatVisuals()
         PROF_SECTION(PT_info_text);
         if (info_text)
         {
-            // Might not keep the "open the hud text" I don't know yet.
-            std::string hack_info_text = "Voidhook Preview " + hack::GetVersion() + " " + hack::GetType() + 
-            "\nPress '" + open_gui_button.toString() + "' to open the HUD.";
+            std::string hack_info_text;
+            if(!info_text_min) {
+                hack_info_text = "Voidhook Preview " + hack::GetVersion() + " " + hack::GetType() + 
+                "\nPress '" + open_gui_button.toString() + "' to open the HUD.";
+            }
+            else {
+                hack_info_text = "Voidhook" + hack::GetVersion() + " " + hack::GetType();
+            }
             float w, h;
             fonts::center_screen->stringSize(hack_info_text, &w, &h); // Scale these to size of string
             // Draw the newer information.
