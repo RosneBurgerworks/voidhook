@@ -19,6 +19,7 @@ namespace resource::font
 {
 extern fonts::font base;
 extern fonts::font bold;
+extern fonts::font watermark;
 } // namespace resource::font
 
 namespace style::colors
