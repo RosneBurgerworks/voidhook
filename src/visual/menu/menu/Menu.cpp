@@ -81,7 +81,6 @@ namespace resource::font
 #if ENABLE_IMGUI_DRAWING
 fonts::font base{ paths::getDataPath("/menu/Verdana.ttf"), 12 };
 fonts::font bold{ paths::getDataPath("/menu/VerdanaBold.ttf"), 11 };
-fonts::font watermark{ paths::getDataPath("/menu/Verdana.ttf"), 48 };
 #else
 fonts::font base{ paths::getDataPath("/menu/Verdana.ttf"), 10 };
 fonts::font bold{ paths::getDataPath("/menu/VerdanaBold.ttf"), 9 };
