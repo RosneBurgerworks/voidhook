@@ -416,7 +416,7 @@ bool allowNoScope(CachedEntity *target)
     return false;
 }
 
-void doAutoZoom(bool target_found, CachedEntity *target)
+static void doAutoZoom(bool target_found, CachedEntity *target)
 {
     bool isIdle = !target_found && hacks::shared::followbot::isIdle();
 
