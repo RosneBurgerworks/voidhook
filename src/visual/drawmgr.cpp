@@ -28,8 +28,10 @@
 // Totally neccesary branding.
 static settings::Boolean info_text{ "hack-info.enable", "true" };
 static settings::Boolean info_text_min{ "hack-info.minimal", "false" };
+static settings::Int info_style{ "hack-info.style", "0" };
 static settings::Rgba info_background_color{"hack-info.background", "ff00e6b3"};
 static settings::Rgba info_foreground_color{"hack-info.foreground", "ffffff"};
+static settings::Rgba info_ring_background{"hack-info.ring.background", "ff6c96"};
 static settings::Int info_x{"hack-info.x", "10"};
 static settings::Int info_y{"hack-info.y", "10"};
 
@@ -85,19 +87,31 @@ void DrawCheatVisuals()
         PROF_SECTION(PT_info_text);
         if (info_text)
         {
+            float w, h;
             std::string hack_info_text;
-            if(!info_text_min) {
+            if (*info_style == 0) {
                 hack_info_text = "Voidhook Preview " + hack::GetVersion() + " " + hack::GetType() + 
                 "\nPress '" + open_gui_button.toString() + "' to open the HUD.";
+                fonts::center_screen->stringSize(hack_info_text, &w, &h);
+                draw::Rectangle(*info_x - 5, *info_y - 5, w + 10, h + 10, *info_background_color);
+                draw::String(*info_x, *info_y, *info_foreground_color, hack_info_text.c_str(), *fonts::center_screen);
             }
-            else {
+            else if (*info_style == 1) {
                 hack_info_text = "Voidhook " + hack::GetVersion() + " " + hack::GetType();
+                fonts::center_screen->stringSize(hack_info_text, &w, &h);
+                draw::Rectangle(*info_x - 5, *info_y - 5, w + 10, h + 10, *info_background_color);
+                draw::String(*info_x, *info_y, *info_foreground_color, hack_info_text.c_str(), *fonts::center_screen);
             }
-            float w, h;
-            fonts::center_screen->stringSize(hack_info_text, &w, &h); // Scale these to size of string
-            // Draw the newer information.
-            draw::Rectangle(*info_x - 5, *info_y - 5, w + 10, h + 10, *info_background_color);
-            draw::String(*info_x, *info_y, *info_foreground_color, hack_info_text.c_str(), *fonts::center_screen);
+            else if (*info_style == 2) {
+                hack_info_text = "Voidhook";
+                zerokernel::resource::font::nacl_watermark.stringSize(hack_info_text, &w, &h);
+                draw::String(*info_x + 14, *info_y + 4, *info_foreground_color, hack_info_text.c_str(), zerokernel::resource::font::nacl_watermark); 
+                // NaCl rectangles because why the hell not
+                draw::Rectangle(*info_x, *info_y, w, 5, *info_ring_background);
+                draw::Rectangle(*info_x, *info_x + 5, 5, h / 2, *info_ring_background);
+                draw::Rectangle(*info_x + 31, *info_y + 14 + h, w, 5, *info_ring_background);
+                draw::Rectangle(*info_x + 31 + w - 5, *info_y + 14 + h / 2, 5, h / 2, *info_ring_background);
+            }
         }
     }
     if (spectator_target)
