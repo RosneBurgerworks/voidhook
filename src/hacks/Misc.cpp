@@ -39,6 +39,7 @@ static settings::Boolean ping_reducer{ "misc.ping-reducer.enable", "false" };
 static settings::Int force_ping{ "misc.ping-reducer.target", "0" };
 static settings::Boolean force_wait{ "misc.force-enable-wait", "true" };
 static settings::Boolean scc{ "misc.scoreboard.match-custom-team-colors", "false" };
+static settings::Boolean sv_cheats_bypass{ "misc.sv-cheats-bypass", "false" };
 
 #if ENABLE_VISUALS
 static settings::Boolean debug_info{ "misc.debug-info", "false" };
@@ -102,6 +103,27 @@ static void updateAntiAfk()
             }
         }
         last_buttons = current_user_cmd->buttons;
+    }
+}
+
+static void bypassCheats()
+{
+    static bool cheatset = false;
+    if (ConVar* sv_cheats = g_ICvar->FindVar("sv_cheats"))
+    {
+        if (*sv_cheats_bypass && sv_cheats)
+        {
+            sv_cheats->SetValue(1);
+            cheatset = true;
+        }
+        else
+        {
+            if (cheatset)
+            {
+                sv_cheats->SetValue(0);
+                cheatset = false;
+            }
+        }
     }
 }
 
@@ -223,6 +245,9 @@ void CreateMove()
     // random keys to be spammed for 1 second
     if (anti_afk)
         updateAntiAfk();
+
+    // sv_cheats bypass function which.. bypasses sv_cheats(duh?)
+    bypassCheats();
 
     // Automatically strafes in the air
     if (auto_strafe && CE_GOOD(LOCAL_E) && !g_pLocalPlayer->life_state)

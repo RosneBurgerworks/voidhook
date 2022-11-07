@@ -13,6 +13,7 @@
             <AutoVariable width="fill" target="misc.full-auto" label="Fully automated firing"/>
             <AutoVariable width="fill" target="misc.show-spectators" label="Show spectators"/>
             <AutoVariable width="fill" target="misc.tauntslide" label="Tauntslide"/>
+            <AutoVariable width="fill" target="misc.sv-cheats-bypass" label="sv_cheats Bypass" tooltip="Allows you to use some sv_cheats commands (clientside)"/>
             <AutoVariable width="fill" target="announcer" label="Enable announcer"/>
         </List>
     </Box>
