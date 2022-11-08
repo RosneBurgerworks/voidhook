@@ -163,6 +163,7 @@ void font::changeSize(int new_font_size)
 std::unique_ptr<font> menu{ nullptr };
 std::unique_ptr<font> esp{ nullptr };
 std::unique_ptr<font> center_screen{ nullptr };
+std::unique_ptr<font> nacl_watermark{ nullptr };
 } // namespace fonts
 
 static InitRoutine font_size(
@@ -211,14 +212,17 @@ void Initialize()
     fonts::menu.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 10));
     fonts::esp.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 10));
     fonts::center_screen.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 12));
+    fonts::nacl_watermark.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 48));
 #elif ENABLE_ENGINE_DRAWING
     fonts::menu.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 10, true));
     fonts::esp.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 10, true));
     fonts::center_screen.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 12, true));
+    fonts::nacl_watermark.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 48));
 #elif ENABLE_IMGUI_DRAWING
     fonts::menu.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 13, true));
     fonts::esp.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 13, true));
     fonts::center_screen.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 14, true));
+    fonts::nacl_watermark.reset(new fonts::font(paths::getDataPath("/menu/Verdana.ttf"), 48));
 #endif
 #if ENABLE_ENGINE_DRAWING
     texture_white                = g_ISurface->CreateNewTextureID();

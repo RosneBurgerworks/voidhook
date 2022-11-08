@@ -104,8 +104,8 @@ void DrawCheatVisuals()
             }
             else if (*info_style == 2) {
                 hack_info_text = "Voidhook";
-                zerokernel::resource::font::nacl_watermark.stringSize(hack_info_text, &w, &h);
-                draw::String(*info_x + 14, *info_y + 4, *info_foreground_color, hack_info_text.c_str(), zerokernel::resource::font::nacl_watermark); 
+                fonts::nacl_watermark->stringSize(hack_info_text, &w, &h);
+                draw::String(*info_x + 14, *info_y + 4, *info_foreground_color, hack_info_text.c_str(), *fonts::nacl_watermark); 
                 // NaCl rectangles because why the hell not
                 draw::Rectangle(*info_x, *info_y, w, 5, *info_ring_background);
                 draw::Rectangle(*info_x, *info_x + 5, 5, h / 2, *info_ring_background);
