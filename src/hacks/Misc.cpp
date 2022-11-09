@@ -42,6 +42,15 @@ static settings::Boolean scc{ "misc.scoreboard.match-custom-team-colors", "false
 static settings::Boolean sv_cheats_bypass{ "misc.sv-cheats-bypass", "false" };
 
 #if ENABLE_VISUALS
+static settings::Boolean rich_presence_enable{ "misc.rich-presence.enable", "false" };
+static settings::Int rich_presence_group{ "misc.rich-presence.group", "0" };
+static settings::Boolean rich_presence_menu_override{ "misc.rich-presence.menu-override", "false" };
+static settings::Int rich_presence_map{ "misc.rich-presence.map", "0" };
+static settings::String rich_presence_map_text{ "misc.rich-presence.map-text", "" };
+static settings::Int rich_presence_party_size{ "misc.rich-presence.party-size", "1337" };
+#endif
+
+#if ENABLE_VISUALS
 static settings::Boolean debug_info{ "misc.debug-info", "false" };
 static settings::Boolean show_spectators{ "misc.show-spectators", "false" };
 static settings::Boolean misc_drawhitboxes{ "misc.draw-hitboxes", "false" };
@@ -806,6 +815,129 @@ static CatCommand debug_print_weaponid("debug_weaponid", "Print the weapon IDs o
                                                logging::Info("weapon %i: %i", i, re::C_TFWeaponBase::GetWeaponID(RAW_ENT(weapon)));
                                            }
                                        });
+#if ENABLE_VISUALS
+static bool SteamCleared = false;
+static void PresencePaint()
+{
+    /*
+    g_ISteamFriends->SetRichPresence("steam_display", "#TF_RichPresence_Display");
+    g_ISteamFriends->SetRichPresence("state", "PlayingMatchGroup");
+    g_ISteamFriends->SetRichPresence("matchgrouploc", "SpecialEvent");
+    g_ISteamFriends->SetRichPresence("steam_player_group_size", std::to_string(*rich_presence_party_size + 1).c_str());
+    */
+
+    if (!*rich_presence_enable) {
+        if (SteamCleared == false) //stupid way to return back to normal rpc
+        {
+            g_ISteamFriends->SetRichPresence("steam_display", "");
+			//this will only make it say "Team Fortress 2" until the player leaves/joins some server. its bad but its better than making 1000 checks to recreate the original
+            SteamCleared = true;
+        }
+        return;
+    }
+
+    SteamCleared = false;
+    g_ISteamFriends->SetRichPresence("steam_display", "#TF_RichPresence_Display");
+
+    /*
+	"TF_RichPresence_State_MainMenu"              "Main Menu"
+	"TF_RichPresence_State_SearchingGeneric"      "Searching for a Match"
+	"TF_RichPresence_State_SearchingMatchGroup"   "Searching - %matchgrouploc_token%"
+	"TF_RichPresence_State_PlayingGeneric"        "In Match - %currentmap%"
+	"TF_RichPresence_State_LoadingGeneric"        "Joining Match"
+	"TF_RichPresence_State_PlayingMatchGroup"     "%matchgrouploc_token% - %currentmap%" <--!!!! used
+	"TF_RichPresence_State_LoadingMatchGroup"     "Joining %matchgrouploc_token%"
+	"TF_RichPresence_State_PlayingCommunity"      "Community - %currentmap%"
+	"TF_RichPresence_State_LoadingCommunity"      "Joining Community Server"
+	*/
+    if (!g_IEngine->IsInGame() && *rich_presence_menu_override)
+    {
+        g_ISteamFriends->SetRichPresence("state", "MainMenu");
+    }
+    else
+    {
+        g_ISteamFriends->SetRichPresence("state", "PlayingMatchGroup");
+
+        switch (*rich_presence_group)
+        {
+            case 0:
+                g_ISteamFriends->SetRichPresence("matchgrouploc", "SpecialEvent");
+                break;
+            case 1:
+                g_ISteamFriends->SetRichPresence("matchgrouploc", "MannUp");
+                break;
+            case 2:
+                g_ISteamFriends->SetRichPresence("matchgrouploc", "Competitive6v6");
+                break;
+            case 3:
+                g_ISteamFriends->SetRichPresence("matchgrouploc", "Casual");
+                break;
+            case 4:
+                g_ISteamFriends->SetRichPresence("matchgrouploc", "BootCamp");
+                break;
+            default:
+                g_ISteamFriends->SetRichPresence("matchgrouploc", "SpecialEvent");
+                break;
+        }
+    }
+
+    /*
+	"TF_RichPresence_MatchGroup_Competitive6v6"   "Competitive"
+	"TF_RichPresence_MatchGroup_Casual"           "Casual"
+	"TF_RichPresence_MatchGroup_SpecialEvent"     "Special Event"
+	"TF_RichPresence_MatchGroup_MannUp"           "MvM Mann Up"
+	"TF_RichPresence_MatchGroup_BootCamp"         "MvM Boot Camp"
+	*/
+    switch (*rich_presence_map)
+    {
+        case 0:
+            if (*rich_presence_map_text == "")
+            {
+                g_ISteamFriends->SetRichPresence("currentmap", "Voidhook");
+            }
+            else
+            {
+                g_ISteamFriends->SetRichPresence("currentmap", std::string(*rich_presence_map_text).c_str());
+            }
+            break;
+        case 1:
+            g_ISteamFriends->SetRichPresence("currentmap", "Fedoraware");
+            break;
+        case 2:
+            g_ISteamFriends->SetRichPresence("currentmap", "Figoraware");
+            break;
+        case 3:
+            g_ISteamFriends->SetRichPresence("currentmap", "Meowhook.club");
+            break;
+        case 4:
+            g_ISteamFriends->SetRichPresence("currentmap", "Rathook.cc");
+            break;
+        case 5:
+            g_ISteamFriends->SetRichPresence("currentmap", "Nitro.tf");
+            break;
+        case 6:
+            g_ISteamFriends->SetRichPresence("currentmap", "Voidhook");
+            break;
+        case 7:
+            g_ISteamFriends->SetRichPresence("currentmap", "Pastedhook");
+            break;
+        case 8:
+            g_ISteamFriends->SetRichPresence("currentmap", "Fuckhook");
+            break;
+        case 9:
+            g_ISteamFriends->SetRichPresence("currentmap", "Burgerhook");
+            break;
+        case 10:
+            g_ISteamFriends->SetRichPresence("currentmap", "Cathook.club");
+            break;
+        default:
+            g_ISteamFriends->SetRichPresence("currentmap", "Voidhook");
+            break;
+    }
+
+    g_ISteamFriends->SetRichPresence("steam_player_group_size", std::to_string(*rich_presence_party_size).c_str());
+}
+#endif
 
 #if ENABLE_VISUALS && !ENFORCE_STREAM_SAFETY
 // This makes us able to see enemy class and status in scoreboard and player panel
@@ -1102,6 +1234,9 @@ static InitRoutine init(
         EC::Register(EC::Shutdown, Shutdown, "draw_local_player", EC::average);
         EC::Register(EC::CreateMove, CreateMove, "cm_misc_hacks", EC::average);
         EC::Register(EC::CreateMoveWarp, CreateMove, "cmw_misc_hacks", EC::average);
+#if ENABLE_VISUALS
+        EC::Register(EC::Paint, PresencePaint, "paint_rich_presence");
+#endif
 #if ENABLE_VISUALS
         EC::Register(EC::Draw, Draw, "draw_misc_hacks", EC::average);
 #if !ENFORCE_STREAM_SAFETY

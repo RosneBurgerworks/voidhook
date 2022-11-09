@@ -17,6 +17,38 @@
             <AutoVariable width="fill" target="announcer" label="Enable announcer"/>
         </List>
     </Box>
+    <Box height="content" width="content" padding="12 6 6 6" name="Steam RPC" y="250">
+        <List width="200">
+            <AutoVariable width="fill" target="misc.rich-presence.enable" label="Steam RPC" tooltip="Enable Steam Rich Presence"/>
+            <LabeledObject width="fill" label="Match group" tooltip="Which match group should be used?">
+                <Select target="misc.rich-presence.group">
+                    <Option name="Special Event" value="0"/>
+                    <Option name="MvM Mann Up" value="1"/>
+                    <Option name="Competitive" value="2"/>
+                    <Option name="Casual" value="3"/>
+                    <Option name="MvM Boot Camp" value="4"/>
+                </Select>
+            </LabeledObject>
+            <AutoVariable width="fill" target="misc.rich-presence.menu-override" label="Override in menu" tooltip="Override match group to 'Main Menu' when in main menu"/>
+            <LabeledObject width="fill" label="Map text" tooltip="Which map text should be used?">
+                <Select target="misc.rich-presence.map">
+                    <Option name="Custom" value="0"/>
+                    <Option name="Fedoraware" value="1"/>
+                    <Option name="Figoraware" value="2"/>
+                    <Option name="Meowhook.club" value="3"/>
+                    <Option name="Rathook.cc" value="4"/>
+                    <Option name="Nitro.tf" value="5"/>
+                    <Option name="Voidhook" value="6"/>
+                    <Option name="Pastedhook" value="7"/>
+                    <Option name="Fuckhook" value="8"/>
+                    <Option name="Burgerhook" value="9"/>
+                    <Option name="Cathook.club" value="10"/>
+                </Select>
+            </LabeledObject>
+            <AutoVariable width="fill" target="misc.rich-presence.map-text" label="Custom map text" tooltip="Sets custom map text when 'Custom' is selected in 'Map text'"/>
+            <AutoVariable width="fill" target="misc.rich-presence.party-size" label="Group size" tooltip="Sets party size"/>
+        </List>
+    </Box>
     <Box height="content" width="content" padding="12 6 6 6" name="Fake name" x="215">
         <List width="200">
             <AutoVariable width="fill" target="name.custom" label="Custom name"/>

@@ -434,7 +434,8 @@ static void doAutoZoom(bool target_found, CachedEntity *target)
     }
 
     auto nearest = hacks::tf2::NavBot::getNearestPlayerDistance();
-    if ((auto_zoom && !allowNoScope(target)) && g_pLocalPlayer->holding_sniper_rifle && (target_found || isIdle || nearest.second <= *zoom_distance)) {
+    if ((auto_zoom && !allowNoScope(target)) && g_pLocalPlayer->holding_sniper_rifle && (target_found || isIdle || nearest.second <= *zoom_distance))
+    {
         if (target_found)
             zoomTime.update();
         if (!g_pLocalPlayer->bZoomed)
