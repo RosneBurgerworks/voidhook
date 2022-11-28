@@ -1,5 +1,5 @@
-# Cathook Training Software
-![banner](https://user-images.githubusercontent.com/13179138/134817300-d4865695-af33-4e83-a017-5ec0d31ea0a1.png)
+# Voidhook
+![banner](https://bitcu.co/en/wp-content/uploads/2020/07/Void_Linux_logo.svg_.png)
 
 [![CircleCI](https://circleci.com/gh/nullworks/cathook.svg?style=svg)](https://circleci.com/gh/nullworks/cathook)
 
