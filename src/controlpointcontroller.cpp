@@ -80,6 +80,7 @@ int GetFarthestOwnedControlPoint(int team)
         if (GET_OWNING_TEAM(iPoint) != team)
             break;
 
+
         iFarthestPoint = iPoint;
     }
 
